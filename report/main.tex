@@ -149,7 +149,7 @@ Using the CHP plant approach, with an average CI of 300 gCO$_{2}$e kWh$^{-1}$, t
 Using the national grid approach, with a yearly average CI of 124 gCO$_{2}$e kWh$^{-1}$, the Turing's operational emissions over its entire use of Baskerville were 36.9 tCO${_2}$e and its operational emissions in the past year (September 2024 - August 2025) were 10.3 tCO${_2}$e. This is approximately 2.4 ($300/124$) times lower than using the CHP plant approach. This lower CI reflects the fact that the national grid draws from a mix of sources — including renewables and nuclear, which have near-zero carbon intensities — whereas the CHP plant runs purely on gas. 
 Notably, even when using the national grid approach, our operational emissions from Baskerville usage are significantly higher than from our entire Azure usage (operational plus embodied emissions).
 
-Using the national grid approach with daily average CIs, the Turing's operational emissions over its entire use of Baskerville were 41.2 tCO${_2}$e and its operational emissions in the past year were 9.0 tCO${_2}$e. 
+Using the national grid approach with daily average CIs, the Turing's operational emissions over its entire use of Baskerville were 39.2 tCO${_2}$e and its operational emissions in the past year were 8.7 tCO${_2}$e. 
 Using this approach, our overall emissions were higher but our emissions for the past year were lower. 
 These variations are likely due to a UK trend of reducing CI over time as more renewables are added to the national grid, meaning historical CIs were higher than 124 gCO$_{2}$e kWh$^{-1}$ but this current year's average CI is lower.
 
@@ -169,7 +169,7 @@ This is true even for Turing admins and so instead of running GRACE-HPC directly
 I made code changes (see \href{https://github.com/Elliot-Ayliffe/GRACE-HPC/pull/1}{\#1}, \href{https://github.com/Elliot-Ayliffe/GRACE-HPC/pull/2}{\#2} and \href{https://github.com/Elliot-Ayliffe/GRACE-HPC/pull/3}{\#3}) to ensure GRACE-HPC could use this pre-saved data as input and, to save time and reduce the number of API calls, added some caching and adjusted the CI averaging to use hourly averages versus getting exact CI values on a job-by-job basis.
 
 Running GRACE-HPC on the provided data showed that the Turing's operational emissions were approximately 11.2 tCO${_2}$e from its usage of Baskerville in the past year (September 2024 - August 2025). 
-Notably, this is around 25\% higher than calculated using daily average CIs, though it is unclear where these differences arise.
+Notably, this is around 29\% higher than calculated using daily average CIs, though it is unclear where these differences arise.
 
 Figure \ref{fig:agg_hourly_run_time_baskerville_vs_ci} shows how the Turing's usage of Baskerville and the UK average CI vary throughout the day. From this, we see that on average the Turing has the highest number of jobs running between 11 am and 5 pm. Interestingly, when compared against the UK average CI, we see that our jobs are generally being run when CI is lowest.  
 
