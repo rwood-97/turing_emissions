@@ -76,7 +76,9 @@ class CarbonIntensityCalculator():
                 json_CI_response = api_response.json()
 
                 # Extract the carbon intensity value (gCO2e/kWh) from the response
-                carbon_intensity = json_CI_response["data"]["data"][0]["intensity"]["forecast"]
+                # Average over all 30-min slots in the 24-hour window
+                slots = json_CI_response["data"]["data"]
+                carbon_intensity = sum(s["intensity"]["forecast"] for s in slots) / len(slots)
 
                 # Append the value to the list
                 carbon_intensity_values.append(carbon_intensity)
