@@ -117,8 +117,8 @@ For both GPU and CPU, power draw can be taken as the Thermal Design Power (TDP) 
     \label{eq:energy1}
 \end{equation}
 
-Figure \ref{fig:baskerville_energy} shows the calculated energy usage of Turing's Baskerville jobs since mid-2021 (when the Turing first gained pilot access to Baskerville). 
-Although these calculated energy values should only be taken as estimates due to large errors in the data, they are accurate enough to give a sense of our energy usage over the years. 
+Figures \ref{fig:baskerville_energy} and \ref{fig:baskerville_monthly_energy} show the calculated energy usage of Turing's Baskerville jobs since mid-2021 (when the Turing first gained pilot access to Baskerville), broken down by year and by month respectively.
+Although these calculated energy values should only be taken as estimates due to large errors in the data, they are accurate enough to give a sense of our energy usage over the years.
 Errors originate from the following sources:
 \begin{itemize}
     \item The energy values shown reflect the energy needed to operate GPUs, CPUs and memory, as well as the overheads of the Baskerville HPC facility (PUE). However, they do not take into account additional overheads, such as energy needed to operate interconnect switches, storage, coolant systems, etc. For ARCHER2, the UK National Supercomputing Service hosted by EPCC at the University of Edinburgh, these overheads account for around 15\% power draw\cite{archer2_scope2} and for Isambard-AI, an AI-optimised HPC and part of the UK's AI Research Resource, these overheads account for around 8\% of operational emissions\cite{grace_hpc}. This would mean the values are underestimating the energy requirements for running Baskerville.
@@ -128,8 +128,15 @@ Errors originate from the following sources:
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=0.75\linewidth]{baskerville_energy.png}
-    \caption{Baskerville energy usage (August 2021 - August 2025)}
+    \caption{Baskerville energy usage per year (August 2021 - August 2025)}
     \label{fig:baskerville_energy}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=\linewidth]{baskerville_monthly_energy.png}
+    \caption{Baskerville energy usage per month, broken down by component (August 2021 - August 2025)}
+    \label{fig:baskerville_monthly_energy}
 \end{figure}
 
 As per Equation \eqref{eq:emission1}, energy values per job are multiplied by CI at runtime to calculate carbon emissions. 
