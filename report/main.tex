@@ -233,9 +233,9 @@ Embodied emissions can be converted to embodied emissions per unit time such tha
 Since Baskerville has been running since 2021 and is due to be shut down in 2026, its service lifetime is 5 years. 
 This gives an estimated embodied emissions per unit time of \qty[qualifier-mode=combine]{0.174}{\kilogram\of{\cooe}} per node hour or \qty[qualifier-mode=combine]{0.043}{\kilogram\of{\cooe}\per\GPUh}.
 Given our usage over the past year of \qty{138073}{\GPUh}, the Turing's share of embodied emissions from our Baskerville usage is \tcooe{6} in the past year.
-Comparing this against the values in Table \ref{tab:op_emissions_comparison}, this suggests that operational emissions outweigh embodied emissions for Baskervillle HPC. This means that pushing for Baskerville to be powered by renewable electricity, or moving to a more green HPC, would be most effective method of reducing our emissions from compute. 
+Comparing this against the values in Table \ref{tab:op_emissions_comparison}, this suggests that operational emissions outweigh embodied emissions for Baskerville HPC. This means that pushing for Baskerville to be powered by renewable electricity, or moving to a more green HPC, would be most effective method of reducing our emissions from compute. 
 
-\section{GitHub actions}
+\section{GitHub Actions}
 \label{sec:github}
 
 Since GitHub uses Azure virtual machines (VMs) to run GitHub Actions workflows, and we know that Azure uses renewable electricity with a CI of zero, the most likely value for the Turing's operational emissions from GitHub actions is zero. Our embodied emissions are more difficult to estimate, but are likely to be low, since GitHub actions uses small VMs with only a few CPUs. Optimising our use of GitHub actions is therefore not likely to impact our overall emissions from compute.
@@ -249,7 +249,7 @@ To understand the CI of the energy consumed, we need to know where this energy i
 Together, this information can be used to work out the approximate operational emissions from the Turing's use of GitHub actions using the Green Algorithms calculator\cite{green_algorithms}.
 
 In the previous six months, a rough estimate for our operational emissions related to GitHub actions runners is \qty[qualifier-mode=combine]{50}{\kilogram\of{\cooe}}.
-This was calculated using the Green Algorithms calculate and the following settings: 3340 hours of runtime, 4 CPUs, 7 GB memory and setting the Azure region as North Central US.
+This was calculated using the Green Algorithms calculator and the following settings: 3340 hours of runtime, 4 CPUs, 7 GB memory and setting the Azure region as North Central US.
 Assuming this value is representative, this equates to just \qty[qualifier-mode=combine]{100}{\kilogram\of{\cooe}} for the year - negligible compared to our Azure and HPC emissions and confirms that optimising GitHub Actions usage is unlikely to significantly affect our overall compute-related emissions.
 
 \section{Conclusion}
