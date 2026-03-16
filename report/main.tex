@@ -19,6 +19,7 @@ Carbon Emissions from Computing}
 \newpage
 
 \section{Introduction}
+\label{sec:intro}
 
 Data centres accounted for around 1.5\% of the world’s electricity consumption and around 180 MtCO${_2}$e in 2024 \cite{iea_energy_ai}. 
 This number is forecast to more than double by 2030, largely driven by AI\cite{iea_energy_ai}. The Turing's emissions are undoubtedly a \textit{tiny} subset of the above. However, as a first step towards engaging and understanding the emissions that come from computing, calculating our emissions will help us develop some knowledge in the area and understand potential areas where we could improve. 
@@ -38,7 +39,7 @@ Emissions are categorised as one of three scopes\cite{nationalgrid}:
     \item Scope 3 encompasses emissions that are not produced by the company itself and are not the result of activities from assets owned or controlled by them, but by those that it’s indirectly responsible for up and down its value chain.
 \end{itemize}
 
-Emissions from compute broadly come from one of two sources: emissions from energy consumption when running the hardware (known as operational emissions) and embodied emissions from manufacturing, transporting and disposing of the hardware. For the compute provider (e.g. Azure or an HPC host organisation), operational emissions correspond to Scope 1 (on-site fuel use) and Scope 2 (purchased electricity), while embodied emissions fall under Scope 3 (upstream/downstream supply chain). For the Turing, all of our emissions from computing are classed as Scope 3 since we do not own the hardware we run on nor do we pay directly for the electricity that powers it. 
+Emissions from compute broadly come from one of two sources: emissions from energy consumption when running the hardware (known as operational emissions) and embodied emissions from manufacturing, transporting and disposing of the hardware. For the compute provider (e.g. Azure or an HPC host organisation), operational emissions correspond to Scope 1 (on-site fuel use) and Scope 2 (purchased electricity), while embodied emissions fall under Scope 3 (upstream/downstream supply chain). For the Turing, the vast majority of our emissions from computing are classed as Scope 3 since in most cases we do not own the hardware we run on nor do we pay directly for the electricity that powers it. Emissions from Turing-owned hardware (e.g. Raspberry Pis, laptops, commercial GPUs) are not covered in this report, though these may become increasingly significant with the growing use of locally-run LLMs. 
 
 To calculate operational emissions, the carbon emissions from electricity use are calculated by multiplying energy consumption by the carbon intensity (CI) of that energy, where CI is a measure of the carbon emissions per kWh of electricity consumed. This is a relatively simple calculation and makes it fairly trivial to estimate operational emissions provided that energy consumption and CI are known. Embodied emissions, however, are far more complicated to calculate since they require upstream data from vendors, such as manufacturing and transportation emissions, and a life-cycle assessment.
 
@@ -56,7 +57,12 @@ To help put emissions from computing into perspective it can be helpful to compa
 
 \footnote{*For details on the methodology used to calculate the emissions from the flights see the \href{https://www.myclimate.org/en/information/about-myclimate/downloads/flight-emission-calculator/}{Calculation Principles} page.}
 
-\section{Microsoft Azure}
+The remainder of this report is structured as follows. Section \ref{sec:azure} covers emissions from the Turing's use of cloud computing (primarily Microsoft Azure), Section \ref{sec:hpc} covers emissions from our use of HPC systems (primarily Baskerville) and Section \ref{sec:github} covers emissions from GitHub Actions. Finally, we summarise our findings and outline potential areas for reducing emissions.
+
+\section{Cloud}
+\label{sec:azure}
+
+\subsection{Microsoft Azure}
 
 Microsoft Azure has its own carbon optimisation and emission tracking dashboard which make it possible to view emissions resulting from the Turing's Azure usage. 
 Azure users can access this themselves and see data related to Azure subscriptions they are part of. An example screenshot is shown in Figure \ref{fig:azure_dashboard} (note: this shows data for different dates than discussed below).
@@ -68,11 +74,11 @@ Azure users can access this themselves and see data related to Azure subscriptio
 \end{figure}
 
 The Azure emissions dashboard breaks down emissions by month and by scope. 
-Here, Scope 1 emissions refer to Microsoft's Scope 1 emissions (e.g. from their own power plants), Scope 2 emissions refer to Microsoft's Scope 2 emissions (e.g. from energy they buy from the grid) and Scope 3 emissions refer to Microsoft's Scope 3 emissions (e.g. from the hardware they purchase).
+Here, the scopes refer to Microsoft's own emissions: Scope 1 from their own power plants, Scope 2 from energy they buy from the grid, and Scope 3 from the hardware they purchase.
 
 Figure \ref{fig:azure_monthly} shows the data for the past year (September 2024 - August 2025). From this, we see the majority of the Turing's Azure emissions come from Microsoft's Scope 3 emissions, with a small contribution from Microsoft's Scope 1 emissions (most likely back-up power generation). Over this period, the Turing's total emissions from Azure were just 2.9 tCO${_2}$e. 
 This number is surprisingly low, likely because Scope 2 emissions, which we would expect to be the biggest contributor to Azure emissions, are reported as zero. 
-This is because Microsoft only report market-based Scope 2 emissions and use renewable energy tariffs\cite{azure_docs_scope2}, hence, the CI of the energy is zero. Since there is no information on our energy usage, it is impossible to calculate location-based Scope 2 emissions.
+This is because Microsoft only report market-based Scope 2 emissions — i.e. emissions reflecting the CI of the specific energy tariff they have chosen rather than the grid average (as described in Section \ref{sec:intro}) — and since Microsoft uses renewable energy tariffs\cite{azure_docs_scope2}, the CI of their energy is zero. Since there is no information on our energy usage, it is impossible to calculate location-based Scope 2 emissions.
 
 \begin{figure}[!ht]
     \centering
@@ -82,6 +88,7 @@ This is because Microsoft only report market-based Scope 2 emissions and use ren
 \end{figure}
 
 \section{HPC}
+\label{sec:hpc}
 
 \subsection{Baskerville}
 
@@ -110,8 +117,8 @@ For both GPU and CPU, power draw can be taken as the Thermal Design Power (TDP) 
     \label{eq:energy1}
 \end{equation}
 
-Figure \ref{fig:baskerville_energy} shows the calculated energy usage of Turing's Baskerville jobs since mid-2021 (when the Turing first gained pilot access to Baskerville). 
-Although these calculated energy values should only be taken as estimates due to large errors in the data, they are accurate enough to give a sense of our energy usage over the years. 
+Figures \ref{fig:baskerville_energy} and \ref{fig:baskerville_monthly_energy} show the calculated energy usage of Turing's Baskerville jobs since mid-2021 (when the Turing first gained pilot access to Baskerville), broken down by year and by month respectively.
+Although these calculated energy values should only be taken as estimates due to large errors in the data, they are accurate enough to give a sense of our energy usage over the years.
 Errors originate from the following sources:
 \begin{itemize}
     \item The energy values shown reflect the energy needed to operate GPUs, CPUs and memory, as well as the overheads of the Baskerville HPC facility (PUE). However, they do not take into account additional overheads, such as energy needed to operate interconnect switches, storage, coolant systems, etc. For ARCHER2, the UK National Supercomputing Service hosted by EPCC at the University of Edinburgh, these overheads account for around 15\% power draw\cite{archer2_scope2} and for Isambard-AI, an AI-optimised HPC and part of the UK's AI Research Resource, these overheads account for around 8\% of operational emissions\cite{grace_hpc}. This would mean the values are underestimating the energy requirements for running Baskerville.
@@ -121,8 +128,15 @@ Errors originate from the following sources:
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=0.75\linewidth]{baskerville_energy.png}
-    \caption{Baskerville energy usage (August 2021 - August 2025)}
+    \caption{Baskerville energy usage per year (August 2021 - August 2025)}
     \label{fig:baskerville_energy}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=\linewidth]{baskerville_monthly_energy.png}
+    \caption{Baskerville energy usage per month, broken down by component (August 2021 - August 2025)}
+    \label{fig:baskerville_monthly_energy}
 \end{figure}
 
 As per Equation \eqref{eq:emission1}, energy values per job are multiplied by CI at runtime to calculate carbon emissions. 
@@ -132,11 +146,11 @@ Three approaches to averaging CI are: 1. Taking a yearly average (e.g. in 2024 t
 
 The \href{https://github.com/rwood-97/hpc_co2/blob/ef0b52f26c255d6060262fe40ae09f21899418da/run_baskerville_emissions.ipynb}{run\_baskerville\_emissions notebook} shows how numbers vary using these different approaches. 
 Using the CHP plant approach, with an average CI of 300 gCO$_{2}$e kWh$^{-1}$, the Turing's operational emissions over its entire use of Baskerville were 89.2 tCO${_2}$e and its operational emissions in the past year (September 2024 - August 2025) were 25.0 tCO${_2}$e. 
-Using the national grid approach, with a yearly average CI of 124 gCO$_{2}$e kWh$^{-1}$, the Turing's operational emissions over its entire use of Baskerville were 36.9 tCO${_2}$e and its operational emissions in the past year (September 2024 - August 2025) were 10.3 tCO${_2}$e. This is approximately 2.4 ($300/124$) times lower than using the CHP plant approach. 
+Using the national grid approach, with a yearly average CI of 124 gCO$_{2}$e kWh$^{-1}$, the Turing's operational emissions over its entire use of Baskerville were 36.9 tCO${_2}$e and its operational emissions in the past year (September 2024 - August 2025) were 10.3 tCO${_2}$e. This is approximately 2.4 ($300/124$) times lower than using the CHP plant approach. This lower CI reflects the fact that the national grid draws from a mix of sources — including renewables and nuclear, which have near-zero carbon intensities — whereas the CHP plant runs purely on gas. 
 Notably, even when using the national grid approach, our operational emissions from Baskerville usage are significantly higher than from our entire Azure usage (operational plus embodied emissions).
 
-Using the national grid approach with daily average CIs, the Turing's operational emissions over its entire use of Baskerville were 41.2 tCO${_2}$e and its operational emissions in the past year were 9.0 tCO${_2}$e. 
-Using this approach, our overall emissions were higher but our emissions for the past year were lower. 
+Using the national grid approach with daily average CIs, the Turing's operational emissions over its entire use of Baskerville were 48.5 tCO${_2}$e and its operational emissions in the past year were 10.9 tCO${_2}$e.
+Using this approach, our overall emissions were higher but our emissions for the past year were lower.
 These variations are likely due to a UK trend of reducing CI over time as more renewables are added to the national grid, meaning historical CIs were higher than 124 gCO$_{2}$e kWh$^{-1}$ but this current year's average CI is lower.
 
 Figure \ref{fig:baskerville_emissions_annually} compares the Turing's operational emissions from its use of Baskerville using the three approaches outlined above.
@@ -155,7 +169,7 @@ This is true even for Turing admins and so instead of running GRACE-HPC directly
 I made code changes (see \href{https://github.com/Elliot-Ayliffe/GRACE-HPC/pull/1}{\#1}, \href{https://github.com/Elliot-Ayliffe/GRACE-HPC/pull/2}{\#2} and \href{https://github.com/Elliot-Ayliffe/GRACE-HPC/pull/3}{\#3}) to ensure GRACE-HPC could use this pre-saved data as input and, to save time and reduce the number of API calls, added some caching and adjusted the CI averaging to use hourly averages versus getting exact CI values on a job-by-job basis.
 
 Running GRACE-HPC on the provided data showed that the Turing's operational emissions were approximately 11.2 tCO${_2}$e from its usage of Baskerville in the past year (September 2024 - August 2025). 
-Notably, this is around 25\% higher than calculated using daily average CIs, though it is unclear where these differences arise.
+This aligns with the numbers seen when using the daily averaging approach, showing that approximating with a daily average CI is a reasonable choice.
 
 Figure \ref{fig:agg_hourly_run_time_baskerville_vs_ci} shows how the Turing's usage of Baskerville and the UK average CI vary throughout the day. From this, we see that on average the Turing has the highest number of jobs running between 11 am and 5 pm. Interestingly, when compared against the UK average CI, we see that our jobs are generally being run when CI is lowest.  
 
@@ -209,6 +223,7 @@ Given our usage over the past year of 138,073 GPUh, the Turing's share of embodi
 Comparing this against the values in Table \ref{tab:op_emissions_comparison}, this suggests that operational emissions outweigh embodied emissions for Baskervillle HPC. This means that pushing for Baskerville to be powered by renewable electricity, or moving to a more green HPC, would be most effective method of reducing our emissions from compute. 
 
 \section{GitHub actions}
+\label{sec:github}
 
 Since GitHub uses Azure virtual machines (VMs) to run GitHub Actions workflows, and we know that Azure uses renewable electricity with a CI of zero, the most likely value for the Turing's operational emissions from GitHub actions is zero. Our embodied emissions are more difficult to estimate, but are likely to be low, since GitHub actions uses small VMs with only a few CPUs. Optimising our use of GitHub actions is therefore not likely to impact our overall emissions from compute.
 
@@ -225,6 +240,7 @@ This was calculated using the Green Algorithms calculate and the following setti
 Assuming this value is representative, this equates to just 100 kgCO${_2}$e for the year - negligible compared to our Azure and HPC emissions and confirms that optimising GitHub Actions usage is unlikely to significantly affect our overall compute-related emissions.
 
 \section{Conclusion}
+\label{sec:conclusion}
 
 This report explores three different sources of computing emissions from the Turing: Microsoft Azure, HPC and GitHub Actions. The Turing's emissions from these compute resources are summarised in Table \ref{tab:summary_table}. In total, we were responsible for around 34 tCO$_{2}$e emissions from compute in the past year. This is equivalent to just fewer than 7 average UK persons' worth of emissions, or 10 flights from London to Melbourne (via Kuala Lumpur). More than anything, this demonstrates the huge emissions impact of flying.
 
@@ -245,7 +261,7 @@ This report explores three different sources of computing emissions from the Tur
 Notably, the majority of the Turing's compute emissions came from Baskerville HPC, a GPU-based machine where the bulk of our workloads are AI-focused. This highlights the large impact of AI's emissions compared to other computing workloads and suggests contributing to research into greener AI technologies would be an effective route to reducing the Turing's emissions whilst also having a wider impact.
 
 Reducing emissions from Baskerville is currently the largest opportunity for reducing our emissions, the easiest way of doing this would be to encourage the Baskerville team to put Baskerville on a renewable electricity tariff. 
-An alternative approach, especially in light of Baskerville's end of life in 2026, would be to encourage Turing projects to move to a more green HPC. Other potential avenues for reducing the Turing's emissions from Baskerville usage include reducing the numbers of failed jobs, e.g by providing more training or guidance for HPC users, and focusing on improving the efficiency of our jobs, e.g. by optimising the compute resources requested or using more energy efficient algorithms.
+An alternative approach, especially in light of Baskerville's end of life in 2026, would be to encourage Turing projects to move to a more green HPC. It is also worth noting that, since embodied emissions are fixed at the point of manufacture, maximising HPC utilisation is the most carbon-efficient way to amortise those costs across useful work. Other potential avenues for reducing the Turing's emissions from Baskerville usage include reducing the numbers of failed jobs, e.g by providing more training or guidance for HPC users, and focusing on improving the efficiency of our jobs, e.g. by optimising the compute resources requested or using more energy efficient algorithms.
 
 Other potential sources of emissions which were not covered in this report due to lack of data, come from other UK HPC's which the Turing makes use of (e.g. Isambard-AI and Dawn), Turing-owned hardware (e.g. Pi's, laptops, commercial GPUs) and collaborators hardware. 
 
