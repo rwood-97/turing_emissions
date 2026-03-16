@@ -14,7 +14,7 @@
 % \author{Rosie Wood}
 % \date{September 2025}
 % \affil{The Alan Turing Institute}
-\newcommand{\cooe}{\ensuremath{\mathrm{CO}_2}\mathrm{e}}
+\newcommand{\cooe}{\ensuremath{\mathrm{CO}_2\mathrm{e}}}
 \newcommand{\mtcooe}[1]{\qty[qualifier-mode=combine]{#1}{\mega\tonne\of{\cooe}}}
 \newcommand{\tcooe}[1]{\qty[qualifier-mode=combine]{#1}{\tonne\of{\cooe}}}
 \DeclareSIUnit\KWH{kWh} % to keep the kW with the h
@@ -110,7 +110,7 @@ As Turing admins for Baskerville, we are able to access an admin portal to downl
 This data contains somewhat limited information for each job, but includes run times, requested resources and submission dates. 
 This is enough information to be able to create a rough estimate for operational emissions originating from the Turing's usage of Baskerville.
 
-The code in \href{https://github.com/rwood-97/hpc_co2/tree/main}{the hpc\_co2 repository} shows a simple way of calculating operational emissions from our Baskerville usage. 
+The code in the hpc\_co2 repository\footnote{\url{https://github.com/rwood-97/hpc_co2/tree/main}} shows a simple way of calculating operational emissions from our Baskerville usage.
 This is done using the formula shown in Equation \eqref{eq:emission1}
 % for example $E_{\text{gpu}}$
 where $E_{gpu}$, $E_{cpu}$ and $E_{mem}$ are the energy used by the GPUs, CPUs and memory, respectively, $PUE$
@@ -154,9 +154,9 @@ Errors originate from the following sources:
 As per Equation \eqref{eq:emission1}, energy values per job are multiplied by CI at runtime to calculate carbon emissions. 
 Two approaches to this are: using the CI of the University of Birmingham's CHP plant (\gcookwh{300}), or, using the CI of the national grid. 
 For the latter, since CI values fluctuate throughout the day and throughout the year, different averaging approaches yield different emissions values. 
-Three approaches to averaging CI are: 1.~Taking a yearly average (\eg, in 2024 the UK average CI was \gcookwh{124}\cite{average_ci_2024}); 2.~Taking a daily average using the \href{https://carbon-intensity.github.io/api-definitions/#carbon-intensity-api-v2-0-0}{Carbon Intensity API}; and 3.~Taking an hourly average, again using the \href{https://carbon-intensity.github.io/api-definitions/#carbon-intensity-api-v2-0-0}{Carbon Intensity API}.
+Three approaches to averaging CI are: 1.~Taking a yearly average (\eg, in 2024 the UK average CI was \gcookwh{124}\cite{average_ci_2024}); 2.~Taking a daily average using the Carbon Intensity API\footnote{\url{https://carbon-intensity.github.io/api-definitions/\#carbon-intensity-api-v2-0-0}}; and 3.~Taking an hourly average, again using the Carbon Intensity API.
 
-The \href{https://github.com/rwood-97/hpc_co2/blob/ef0b52f26c255d6060262fe40ae09f21899418da/run_baskerville_emissions.ipynb}{run\_baskerville\_emissions notebook} shows how numbers vary using these different approaches. 
+The run\_baskerville\_emissions notebook\footnote{\url{https://github.com/rwood-97/hpc_co2/blob/ef0b52f26c255d6060262fe40ae09f21899418da/run_baskerville_emissions.ipynb}} shows how numbers vary using these different approaches. 
 Using the CHP plant approach, with an average CI of \gcookwh{300}, the Turing's operational emissions over its entire use of Baskerville were \qty[qualifier-mode=combine]{89.2}{\tonne\of{\cooe}} and its operational emissions in the past year (September 2024--August 2025) were \tcooe{25.0}. 
 Using the national grid approach, with a yearly average CI of \gcookwh{124}, the Turing's operational emissions over its entire use of Baskerville were \tcooe{36.9} and its operational emissions in the past year (September 2024--August 2025) were \tcooe{10.3}. This is approximately \num{2.4} ($300/124$) times lower than using the CHP plant approach. This lower CI reflects the fact that the national grid draws from a mix of sources — including renewables and nuclear, which have near-zero carbon intensities — whereas the CHP plant runs purely on gas. 
 Notably, even when using the national grid approach, our operational emissions from Baskerville usage are significantly higher than from our entire Azure usage (operational plus embodied emissions).
@@ -174,10 +174,10 @@ Figure \ref{fig:baskerville_emissions_annually} compares the Turing's operationa
 \end{figure}
 
 A number of open source tools for measuring operational emissions from HPC are available on GitHub\cite{greenalgorithms4hpc, grace_hpc}. {GRACE-HPC}, developed by Elliot Ayliffe and the Bristol Centre for SuperComputing (BriCS) team\cite{grace_hpc}, is one example.
-Generally, these tools use the slurm \href{https://slurm.schedmd.com/sacct.html}{sacct} command (or the non-slurm equivalent of this command if an alternative job scheduler is being used) to gather information about completed jobs and calculates their carbon emissions based on the CI at the job's run time. 
+Generally, these tools use the slurm \texttt{sacct}\footnote{\url{https://slurm.schedmd.com/sacct.html}} command (or the non-slurm equivalent of this command if an alternative job scheduler is being used) to gather information about completed jobs and calculates their carbon emissions based on the CI at the job's run time. 
 However, due to privacy restrictions, Baskerville users are only able to see information about their own jobs using \texttt{sacct}. 
 This is true even for Turing admins and so instead of running GRACE-HPC directly on Baskerville, \texttt{sacct} data for the Turing's usage of Baskerville was kindly provided directly by the Baskerville team. 
-I made code changes (see \href{https://github.com/Elliot-Ayliffe/GRACE-HPC/pull/1}{\#1}, \href{https://github.com/Elliot-Ayliffe/GRACE-HPC/pull/2}{\#2} and \href{https://github.com/Elliot-Ayliffe/GRACE-HPC/pull/3}{\#3}) to ensure GRACE-HPC could use this pre-saved data as input and, to save time and reduce the number of API calls, added some caching and adjusted the CI averaging to use hourly averages versus getting exact CI values on a job-by-job basis.
+I made code changes (see pull requests \#1\footnote{\url{https://github.com/Elliot-Ayliffe/GRACE-HPC/pull/1}}, \#2\footnote{\url{https://github.com/Elliot-Ayliffe/GRACE-HPC/pull/2}} and \#3\footnote{\url{https://github.com/Elliot-Ayliffe/GRACE-HPC/pull/3}}) to ensure GRACE-HPC could use this pre-saved data as input and, to save time and reduce the number of API calls, added some caching and adjusted the CI averaging to use hourly averages versus getting exact CI values on a job-by-job basis.
 
 Running GRACE-HPC on the provided data showed that the Turing's operational emissions were approximately \tcooe{11.2} from its usage of Baskerville in the past year (September 2024--August 2025).
 Notably, this is around \qty{25}{\percent} higher than calculated using daily average CIs, though it is unclear where these differences arise.
@@ -225,7 +225,7 @@ A similar approach could be taken for AI workloads using rate per token.
 
 \subsubsection{Embodied emissions}
 
-Recent work focused on estimating the embodied emissions of HPCs from the \href{https://top500.org/lists/top500/}{Top500 list}\cite{Rao_2025} estimated Baskerville's embodied emissions to be \tcooe{381}. This value was calculated using EasyC\cite{easyc}, a tool which estimates embodied carbon emissions based on a only few simple parameters – the number of compute units, storage capacity and memory capacity.
+Recent work focused on estimating the embodied emissions of HPCs from the Top500 list\footnote{\url{https://top500.org/lists/top500/}}\cite{Rao_2025} estimated Baskerville's embodied emissions to be \tcooe{381}. This value was calculated using EasyC\cite{easyc}, a tool which estimates embodied carbon emissions based on a only few simple parameters – the number of compute units, storage capacity and memory capacity.
 
 To verify this number, we can compare against other HPCs for which in-depth embodied emissions analyses have been undertaken. For example, the embodied emissions from Isambard-AI (Phase 2), a GPU-based HPC, is estimated to be \tcooe{8184}\cite{isambard-ai_emissions}. Isambard-AI (Phase 2) is made up of 1320 nodes with GH200 chips. Each GH200 chip has 1 Grace CPU and 1 H100 GPU. There are 4 GH200 chips per node and 72 cores per GPU. Isambard-AI also has 1056 30.72 TB NVMe SSDs. In comparison, the Baskerville system is made up of 48 nodes with A100 GPUs and 2 nodes with H100 GPUs. For both A100 and H100 nodes, there are 4 GPUs per node and 36 cores per GPU. Baskerville also has 48 7.68 TB SSDs. From these system specifications, we see Isambard-AI has 26x more compute nodes than Baskerville. A naive estimate for the embodied emissions of Baskerville would therefore be around \tcooe{310} ($8184/26$). However, this does not account for the different GPUs types, number of CPUs per node or SSD capacities. Nevertheless, this supports the idea that embodied emissions for Baskerville HPC should be on the order of 300 tCO$_{2}$e. 
 
@@ -242,7 +242,7 @@ Since GitHub uses Azure virtual machines (VMs) to run GitHub Actions workflows, 
 
 \subsection{Market-based emissions}
 
-For sake of argument, it is possible to calculate the Turing's emissions from GitHub Actions using the market-based approach. The \href{https://github.com/alan-turing-institute}{Turing's GitHub organisation} ran 3340 hours of GitHub Actions in the past 6 months (March 2025 - September 2025). To estimate the operation emissions from this work, we must know a) the energy consumption and b) CI of the energy consumed. 
+For sake of argument, it is possible to calculate the Turing's emissions from GitHub Actions using the market-based approach. The Turing's GitHub organisation\footnote{\url{https://github.com/alan-turing-institute}} ran 3340 hours of GitHub Actions in the past 6 months (March 2025 - September 2025). To estimate the operation emissions from this work, we must know a) the energy consumption and b) CI of the energy consumed. 
 
  GitHub provide some information about the default runners used when a GitHub Actions workflow is triggered, including information about the number of CPUs and RAM on the VM\cite{github_runners_info}. This helps us understand what compute resources are being used and thus estimate their energy consumption. 
 To understand the CI of the energy consumed, we need to know where this energy is coming from. I created a support request to GitHub to ask about the location of these runners and got the following response: ``Standard and larger GitHub-hosted runners are all hosted in North America (primarily in the United States, and occasionally Canada).`` 
