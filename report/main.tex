@@ -1,7 +1,13 @@
 % -*- TeX-engine: luatex; fill-column: 72; eval: (auto-fill-mode -1); eval: (visual-fill-column-mode 1); eval: (visual-line-mode 1); eval: (adaptive-wrap-prefix-mode 1) -*-
 \documentclass[12pt]{article}
 \usepackage{ttr}
-\usepackage{hyperref}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+% \hypersetup{
+%   colorlinks   = true, 
+%   urlcolor     = darkblue,
+%   linkcolor    = darkblue,
+%   citecolor    = darkblue
+% }
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{siunitx}
@@ -33,7 +39,8 @@
 \section{Introduction}
 \label{sec:intro}
 
-Data centres accounted for around \qty{1.5}{\percent} of the world’s electricity consumption and around \mtcooe{180} in 2024 \cite{iea_energy_ai}. 
+Data centres accounted for around \qty{1.5}{\percent} of the world’s electricity consumption and around \mtcooe{180} in 2024 \cite{iea_energy_ai}
+. 
 This number is forecast to more than double by 2030, largely driven by AI\cite{iea_energy_ai}. The Turing's emissions are undoubtedly a \textit{tiny} subset of the above. However, as a first step towards engaging and understanding the emissions that come from computing, calculating our emissions will help us develop some knowledge in the area and understand potential areas where we could improve. 
 
 The Turing's main compute resources are Microsoft Azure, UK High Performance Computing systems (HPCs) and GitHub Actions.
@@ -113,19 +120,26 @@ This is enough information to be able to create a rough estimate for operational
 The code in the hpc\_co2 repository\footnote{\url{https://github.com/rwood-97/hpc_co2/tree/main}} shows a simple way of calculating operational emissions from our Baskerville usage.
 This is done using the formula shown in Equation \eqref{eq:emission1}
 % for example $E_{\text{gpu}}$
-where $E_{gpu}$, $E_{cpu}$ and $E_{mem}$ are the energy used by the GPUs, CPUs and memory, respectively, $PUE$
-% Should be simply PUE or \text{PUE} in math mode. (Otherwise it will be typset as the product of P, U, and E.)
-is the power usage effectiveness of the HPC and $CI$ is the carbon intensity at the time of that energy usage. 
-Energy is calculated using equation~\eqref{eq:energy1} where $E_{component}$ is the energy used by the component (GPU, CPU or memory), $t_{component}$ is the time that component is in use for and $P_{component}$ is the power draw of that component. 
-For both GPU and CPU, power draw can be taken as the Thermal Design Power (TDP) of the component, as reported by the manufacturer, and for memory, power draw can be taken as a constant power draw of \qty{0.3725}{\watt\per\giga\byte} of requested memory\cite{green_algorithms}.
+where $E_{\text{gpu}}$, $E_{cpu}$ and $E_{mem}$ are the energy used by
+the GPUs, CPUs and memory, respectively, PUE is the power usage
+effectiveness of the HPC and CI is the carbon intensity at the time of
+that energy usage.  Energy is calculated using
+equation~\eqref{eq:energy1} where $E_\text{component}$ is the energy used by
+the component (GPU, CPU or memory), $t_\text{component}$ is the time that
+component is in use for and $P_\text{component}$ is the power draw of that
+component.  For both GPU and CPU, power draw can be taken as the Thermal
+Design Power (TDP) of the component, as reported by the manufacturer,
+and for memory, power draw can be taken as a constant power draw of
+\qty{0.3725}{\watt\per\giga\byte} of requested
+memory\cite{green_algorithms}.
 
 \begin{equation}
-    \mathit{E_operational} = (E_{gpu} + E_{cpu} + E_{mem}) * \mathit{PUE} * \mathit{CI}
+E_{\text{operational}} = (E_\text{gpu} + E_\text{cpu} + E_\text{mem}) \times \text{PUE} \times \text{CI}
     \label{eq:emission1}
 \end{equation}
 
 \begin{equation}
-    E_{component} = t_{component} * P_{component}
+    E_\text{component} = t_\text{component} \times P_\text{component}
     \label{eq:energy1}
 \end{equation}
 
