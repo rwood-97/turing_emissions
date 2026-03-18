@@ -27,7 +27,10 @@
 \DeclareSIUnit\GPUh{GPU\,h} % because
 \newcommand{\gcookwh}[1]{\qty[qualifier-mode=combine, per-mode=symbol]{#1}{\gram\of{\cooe}\per\KWH}}
 \newcommand{\eg}{\emph{e.g.}}
-
+%
+\usepackage{biblatex}
+\addbibresource{bibliography.bib}
+%
 \begin{document}
 \setcounter{page}{3}
 % \maketitle
@@ -300,8 +303,9 @@ An alternative approach, especially in light of Baskerville's end of life in 202
 
 Other potential sources of emissions which were not covered in this report due to lack of data, come from other UK HPC's which the Turing makes use of (\eg, Isambard-AI and Dawn), Turing-owned hardware (\eg, Pi's, laptops, commercial GPUs) and collaborators hardware. 
 
-\bibliography{bibliography}{}
-\bibliographystyle{plain}
+% \bibliography{bibliography}{}
+% \bibliographystyle{plain}
+\printbibliography
 
 \end{document}
 
