@@ -137,7 +137,7 @@ As Turing admins for Baskerville, we are able to access an admin portal to downl
 This data contains somewhat limited information for each job, but includes run times, requested resources and submission dates. 
 This is enough information to be able to create a rough estimate for operational emissions originating from the Turing's usage of Baskerville.
 
-The code in the hpc\_co2 repository\footnote{\url{https://github.com/rwood-97/hpc_co2/tree/main}} shows a simple way of calculating operational emissions from our Baskerville usage.
+The code in the turing\_emissions repository\footnote{\url{https://github.com/rwood-97/turing_emissions/tree/main}} shows a simple way of calculating operational emissions from our Baskerville usage.
 This is done using the formula shown in Equation \eqref{eq:emission1}
 % for example $E_{\text{gpu}}$
 where $E_{\text{gpu}}$, $E_{cpu}$ and $E_{mem}$ are the energy used by
@@ -184,7 +184,7 @@ Two approaches to this are: using the carbon intensity of the University of Birm
 For the latter, since carbon intensity values fluctuate throughout the day and throughout the year, different averaging approaches yield different emissions values. 
 Three approaches to averaging carbon intensity are: 1.~Taking a yearly average (for exmaple, in 2024 the UK average carbon intensity was \gcookwh{124}~\cite{average_ci_2024}); 2.~Taking a daily average using the Carbon Intensity API\footnote{\url{https://carbon-intensity.github.io/api-definitions/\#carbon-intensity-api-v2-0-0}}; and 3.~Taking an hourly average, again using the Carbon Intensity API.
 
-The \texttt{run\_baskerville\_emissions} notebook\footnote{\url{https://github.com/rwood-97/hpc_co2/blob/ef0b52f26c255d6060262fe40ae09f21899418da/run_baskerville_emissions.ipynb}} shows the results under each of these different approaches.
+The \texttt{run\_baskerville\_emissions} notebook\footnote{\url{https://github.com/rwood-97/turing_emissions/blob/main/run_baskerville_emissions.ipynb}} shows the results under each of these different approaches.
 Using the CHP plant approach, the Turing's operational emissions over its entire use of Baskerville were \qty[qualifier-mode=combine]{89.2}{\tonne\of{\cooe}} and its operational emissions in the past year (September 2024--August 2025) were \tcooe{25.0}. 
 Using the national grid approach, with a yearly average carbon intensity of \gcookwh{124}, the Turing's operational emissions over its entire use of Baskerville were \tcooe{36.9} and its operational emissions in the past year (September 2024--August 2025) were \tcooe{10.3}. This is approximately \num{2.4} ($300/124$) times lower than using the CHP plant approach. This lower carbon intensity reflects the fact that the national grid draws from a mix of sources — including renewables and nuclear, which have near-zero carbon intensities — whereas the CHP plant runs purely on gas. 
 Notably, even when using the national grid approach, our operational emissions from Baskerville usage are significantly higher than from our entire Azure usage (operational plus embodied emissions).
