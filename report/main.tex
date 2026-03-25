@@ -236,14 +236,17 @@ A full comparison between the four methods is shown in Table~\ref{tab:op_emissio
 
 \begin{table}[ht]
   \centering
-  \begin{tabular}{@{}lrrr}\toprule
-    Approach&  Averaging method&  \shortstack{All time\\emissions / t\cooe}& \shortstack{Year to date\\/ t\cooe}\\\midrule
-    CHP plant &  Yearly&  89.2& 25.0\\
-    National Grid&  Yearly&  36.9& 10.3\\
-    National Grid&  Daily&  48.5& 10.9\\
-    National Grid&  Hourly&  N/A& 11.2\\ \bottomrule
+  \sisetup{table-align-text-after=false}
+  \begin{tabular}{@{}llSS}\toprule
+    & & \multicolumn{2}{c}{{Emissions ${} / \, \unit[qualifier-mode=combine]{\tonne\of{\cooe}}$}} \\
+    \cmidrule(l){3-4}
+    \multirow{-2}{*}{Approach} & \multirow{-2}{*}{Averaging method} & {All time} & {Year to date} \\ \midrule
+    CHP plant      & Yearly & 89.2  & 25.0 \\
+    National Grid  & Yearly & 36.9  & 10.3 \\
+    National Grid  & Daily  & 48.5  & 10.9 \\
+    National Grid  & Hourly & {---} & 11.2 \\ \bottomrule
   \end{tabular}
-  \caption{Comparison of the different methods for calculating operational emission from HPC.\label{tab:op_emissions_comparison}}
+  \caption{Comparison of the different methods for calculating operational emissions from HPC.\label{tab:op_emissions_comparison}}
 \end{table}
 
 \subsubsection{Emissions rate}
