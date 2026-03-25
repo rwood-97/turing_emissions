@@ -27,6 +27,7 @@
 \newcommand{\mtcooe}[1]{\qty[qualifier-mode=combine]{#1}{\mega\tonne\of{\cooe}}}
 \newcommand{\tcooe}[1]{\qty[qualifier-mode=combine]{#1}{\tonne\of{\cooe}}}
 \DeclareSIUnit\KWH{kWh} % to keep the kW with the h
+\DeclareSIUnit\TWh{TWh}
 \DeclareSIUnit\GPUh{GPU\,h} % because
 \newcommand{\gcookwh}[1]{\qty[qualifier-mode=combine, per-mode=symbol]{#1}{\gram\of{\cooe}\per\KWH}}
 \newcommand{\eg}{\emph{e.g.}}
@@ -46,17 +47,14 @@
 \section{Introduction}
 \label{sec:intro}
 
-In 2024, data centres accounted for around \qty{1.5}{\percent} of the world’s electricity consumption and around \mtcooe{180} (\qty{0.3}{\percent}) of global greenhouse gas emissions~\cite{iea_energy_ai}, \cite{unep_egr_2025}.
-This number%
-% Say what is meant by "this" 
-is forecast to more than double by 2030, largely driven by AI~\cite{iea_energy_ai}.
+In 2024, data centres consumed around \qty{1.5}{\percent} of the world’s total electricity and accounted for around \mtcooe{180} (\qty{0.3}{\percent} of global greenhouse gas emissions)~\cite{iea_energy_ai,unep_egr_2025}. Electricity consumption by data centres is forecast to more than double by 2030, largely driven by AI~\cite{iea_energy_ai}.
 
-In this work, we estimate the greenhouse gas emissions from the Turing's use of its main compute resources (Microsoft Azure, UK High Performance Computing systems (HPCs) and GitHub Actions) and identify areas in which we could reduce these emissions. Our results are summarised in Table~\ref{tab:summary_table}.
+In this work, we estimate the greenhouse gas emissions from the Turing's use of its main compute resources (Microsoft Azure, Baskerville High Performance Computing system (HPC) and GitHub Actions) and identify areas in which we could reduce these emissions. Our results are summarised in Table~\ref{tab:summary_table}.
 
 \begin{table}[ht]
   \centering
 \begin{threeparttable}
-  \caption{Summary of operational and embodied emissions from Azure, HPC and GitHub Actions between September 2024--August 2025.\label{tab:summary_table}}
+  \caption{Summary of operational and embodied emissions from Azure, Baskerville and GitHub Actions between September 2024--August 2025.\label{tab:summary_table}}
   \sisetup{table-align-text-after=false}
   \begin{tabular}{@{}lrSS>{}S@{}}\toprule
     & & \multicolumn{3}{c}{{Emissions ${} / \, \unit[qualifier-mode=combine]{\tonne\of{\cooe}}$}} \\
@@ -64,7 +62,7 @@ In this work, we estimate the greenhouse gas emissions from the Turing's use of 
     \multirow{-2}{*}{Compute resource}  & \multirow{-2}{*}{\shortstack[r]{Electricity \\ ${}/\, \unit{\KWH}$}} & {Operational} & {Embodied} & {Total} \\ \midrule
     Microsoft Azure & {---}
       & 0\textsuperscript{\textdagger}  & 2.9 &  2.9 \\
-    Baskerville HPC (CHP) & \num{83300}
+    Baskerville (CHP) & \num{83300}
       &  25          & 6 &  31  \\
     GitHub Actions & \num{380}\tnote{\textdaggerdbl}
       &   0\textsuperscript{\textdagger} & 0.1 &  0.1 \\ \bottomrule
@@ -80,8 +78,7 @@ To help put these emissions from computing into perspective it can be helpful to
 
  \begin{itemize}
      \item In the UK in 2022, per-capita emissions were approximately \tcooe{5} per year~\cite{iea_uk_emissions}.
-     \item A flight %Removed footnote since the reference in the bibliography contains it \footnote{For details on the methodology used to calculate the emissions from the flights see  \url{https://www.myclimate.org/en/information/about-myclimate/downloads/flight-emission-calculator/}.}
-       from London to New York emits approximately \tcooe{1} per passenger~\cite{co2_flights}. 
+     \item A flight from London to New York emits approximately \tcooe{1} per passenger~\cite{co2_flights}.
 % Removed the other examples -- not sure it helps? 
      % \begin{enumerate}
      %     \item Madrid (MAD) emits approximately \tcooe{0.308} per passenger~\cite{co2_flights},
@@ -89,7 +86,7 @@ To help put these emissions from computing into perspective it can be helpful to
      % \end{enumerate}
  \end{itemize}
 
-The remainder of this report is structured as follows. Section~\ref{sec:background} provides background on emissions scopes and methodology. Section~\ref{sec:azure} covers emissions from the Turing's use of cloud computing (primarily Microsoft Azure), Section~\ref{sec:hpc} covers emissions from our use of HPC systems (primarily Baskerville) and Section~\ref{sec:github} covers emissions from GitHub Actions. Finally, we summarise our findings and outline potential areas for reducing emissions.
+The remainder of this report is structured as follows. Section~\ref{sec:background} provides background on emissions scopes and methodology. Section~\ref{sec:azure} covers emissions from Microsoft Azure, Section~\ref{sec:hpc} covers emissions from Baskerville HPC and Section~\ref{sec:github} covers emissions from GitHub Actions. Finally, we summarise our findings and outline potential areas for reducing emissions.
 
 \section{Background}
 \label{sec:background}
@@ -110,10 +107,8 @@ Emissions from compute broadly come from one of two sources: emissions from ener
 
 To calculate operational emissions, the carbon emissions from electricity use are calculated by multiplying energy consumption by the carbon intensity of that energy, where carbon intensity is a measure of the carbon emissions per kWh of electricity consumed. This is a relatively simple calculation and makes it straightforward to estimate operational emissions provided that energy consumption and carbon intensity are known. Embodied emissions, however, are far more complicated to calculate since they require upstream data from vendors, such as manufacturing and transportation emissions, and a life-cycle assessment.
 
-\section{Cloud}
+\section{Microsoft Azure}
 \label{sec:azure}
-
-\subsection{Microsoft Azure}
 
 Microsoft Azure has its own carbon optimisation and emission tracking dashboard which make it possible to view emissions resulting from the Turing's Azure usage. Azure users can access this themselves and see data related to Azure subscriptions they are part of. An example screenshot is shown in Figure \ref{fig:azure_dashboard} (note that this shows data for different dates than discussed below).
 \begin{figure}[!ht]
@@ -136,10 +131,8 @@ This number is surprisingly low because Scope~2 emissions, which we would expect
     \label{fig:azure_monthly}
 \end{figure}
 
-\section{HPC}
+\section{Baskerville}
 \label{sec:hpc}
-
-\subsection{Baskerville}
 
 Baskerville is by far the most widely used HPC at the Turing due to our institutional allocation which makes it particularly easy for Turing projects to access and utilise Baskerville HPC. Consequently, it is also our biggest source of compute emissions.
 
@@ -272,7 +265,7 @@ Comparing this against the values in Table~\ref{tab:op_emissions_comparison}, th
 \section{GitHub Actions}
 \label{sec:github}
 
-Since GitHub uses Azure virtual machines (VMs) to run GitHub Actions workflows, and we know that Azure uses renewable electricity with a carbon intensity of zero, the most likely value for the Turing's operational emissions from GitHub actions is zero. Our embodied emissions are more difficult to estimate, but are likely to be low, since GitHub actions uses small VMs with only a few CPUs. Optimising our use of GitHub actions is therefore not likely to impact our overall emissions from compute.
+Since GitHub uses Azure virtual machines (VMs) to run GitHub Actions workflows, and we know that Azure uses renewable electricity with a carbon intensity of zero, the most likely value for the Turing's operational emissions from GitHub actions is zero. Our embodied emissions are more difficult to estimate, but are likely to be low, since GitHub actions uses small virtual machines with only a few CPUs. Optimising our use of GitHub actions is therefore not likely to impact our overall emissions from compute.
 
 \subsection{Market-based emissions}
 
@@ -299,14 +292,14 @@ Assuming this value is representative, this equates to just \qty[qualifier-mode=
 \section{Conclusion}
 \label{sec:conclusion}
 
-This report explores three different sources of computing emissions from the Turing: Microsoft Azure, HPC and GitHub Actions. The Turing's emissions from these compute resources are summarised in Table~\ref{tab:summary_table}. In total, we were responsible for around \tcooe{34} emissions from compute in the past year. This is equivalent to just under seven times the average UK per-capita emissions or around 35 passengers on a transatlantic flight to New York. More than anything, this demonstrates the huge emissions impact of flying.
+This report explores three different sources of computing emissions from the Turing: Microsoft Azure, Baskerville HPC and GitHub Actions. The Turing's emissions from these compute resources are summarised in Table~\ref{tab:summary_table}. In total, our use of these resources accounted for around \tcooe{34} emissions in the past year. This is equivalent to just under seven times the average UK per-capita emissions or around 35 passengers on a transatlantic flight to New York. More than anything, this demonstrates the huge emissions impact of flying.
 
 Notably, the majority of the Turing's compute emissions came from Baskerville HPC, a GPU-based machine where the bulk of our workloads are AI-focused. This highlights the large impact of AI's emissions compared to other computing workloads and suggests contributing to research into greener AI technologies would be an effective route to reducing the Turing's emissions whilst also having a wider impact.
 
 Reducing emissions from Baskerville is currently the largest opportunity for reducing our emissions, the easiest way of doing this would be to encourage the Baskerville team to put Baskerville on a renewable electricity tariff. 
-An alternative approach, especially in light of Baskerville's end of life in 2026, would be to encourage Turing projects to move to a greener HPC. Other potential avenues for reducing the Turing's emissions from Baskerville usage include reducing the number of failed jobs --- for example, by providing more training or guidance for HPC users --- and improving the efficiency of jobs by optimising the compute resources requested or using more energy efficient algorithms.
+An alternative approach, especially in light of Baskerville's end of life in 2026, would be to encourage Turing projects to move to greener HPCs such as those listed in the Green500~\cite{green500}. Other potential avenues for reducing the Turing's emissions from Baskerville usage, and which also apply to usage of other HPCs, include reducing the number of failed jobs --- for example, by providing more training or guidance for HPC users --- and improving the efficiency of jobs by optimising the compute resources requested or using more energy efficient algorithms.
 
-Other potential sources of emissions not covered in this report due to lack of data include other UK HPCs which the Turing makes use of (Isambard-AI and Dawn), Turing-owned hardware (laptops, commercial GPUs and Pi's) and collaborators' hardware.
+Other sources of emissions not covered in this report due to lack of data include other UK HPCs which the Turing makes use of (Isambard-AI and Dawn), Turing-owned hardware (laptops, commercial GPUs and Pi's) and collaborators' hardware.
 
 % \bibliography{bibliography}{}
 % \bibliographystyle{plain}
