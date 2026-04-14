@@ -1,8 +1,27 @@
 % -*- TeX-engine: luatex; fill-column: 72; eval: (auto-fill-mode -1); eval: (visual-fill-column-mode 1); eval: (visual-line-mode 1); eval: (adaptive-wrap-prefix-mode 1) -*-
 \documentclass[12pt]{article}
-\usepackage{ttr}
-%\usepackage{amsmath}
+%\usepackage{ttr}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper]{geometry}
+\usepackage{tikz}
+\usepackage{xcolor}
 \usepackage[colorlinks=true,allcolors=blue]{hyperref}
+%%
+%% Turing grid lengths (1/21 of page dimensions)
+\newlength{\turingcolwd}
+\newlength{\turingcolht}
+\setlength{\turingcolwd}{0.04762\paperwidth}
+\setlength{\turingcolht}{0.04762\paperheight}
+%%
+%% Report metadata
+\newcommand{\reportNumber}{10}
+\newcommand{\reportTitle}{The Alan Turing Institute: Carbon emissions from computing}
+\newcommand{\reportAuthors}{Rosie~Wood}
+\newcommand{\reportAcknowledgment}{}
+\newcommand{\reportPublicationDate}{March 2026}
+\newcommand{\reportCopyrightDate}{2026}
+\newcommand{\reportDOI}{10.5281/zenodo.19237594}
 % \hypersetup{
 %   colorlinks   = true, 
 %   urlcolor     = darkblue,
@@ -37,7 +56,87 @@
 \addbibresource{bibliography.bib}
 %
 \begin{document}
-\setcounter{page}{3}
+%%
+%% --- Cover pages (scoped) ---
+\begingroup
+  \newgeometry{a4paper, left=\turingcolwd, vmargin=\turingcolht, textwidth=13\turingcolwd}
+  \renewcommand{\sfdefault}{phv}%
+  \sffamily
+  %%
+  %% Page 1: Title page
+  %%
+  \begin{titlepage}
+  \raggedright\setlength{\parindent}{0pt}%
+  %% Background polygon
+  \begin{tikzpicture}[remember picture,overlay,shift=(current page.south west)]
+    \begin{scope}[x={(current page.south east)},y={(current page.north west)}]
+      \fill (0, 0.34) -- (0.89, 0.55) -- (0.55, 1) -- (0, 1) -- cycle;
+    \end{scope}
+  \end{tikzpicture}
+  %% Logotype
+  \begin{tikzpicture}[remember picture,overlay]
+    \node [anchor=north west, xshift=\turingcolwd, yshift=-\turingcolht] at (current page.north west)%
+  {\includegraphics[width=5\turingcolwd, trim=6pt 0 0 5pt]{ATI_logo_white.pdf}};
+  \end{tikzpicture}
+  %%
+  \vspace*{4\turingcolht}
+  \vspace*{-\baselineskip}\par
+  %%
+  \fontsize{34}{39}\selectfont\bfseries
+  \color{white}%
+  \newlength{\ttrwidth}%
+  \settowidth{\ttrwidth}{\mbox{Technical Report}}%
+  {\offinterlineskip\rule{\ttrwidth}{0.45ex}\\[0.5ex]
+   Technical Report\par}
+  \vspace{1\turingcolht}
+  %%
+  \mdseries\fontsize{21}{24}\selectfont
+  \reportTitle\par
+  \bigskip
+  \mdseries\fontsize{13}{15}\selectfont
+  \reportAuthors\par
+  \medskip
+  \reportPublicationDate\par
+  \vspace{1\turingcolht}
+  %%
+  \mdseries
+  \newlength{\ttrnumwidth}%
+  \settowidth{\ttrnumwidth}{\mbox{Report number \reportNumber}}%
+  {\offinterlineskip\rule{\ttrnumwidth}{0.15ex}\\[0.5ex]
+  Report number \reportNumber\par}
+  \end{titlepage}
+  %%
+  %% Page 2: Copyright page
+  %%
+  \begin{titlepage}
+    \newgeometry{left=\turingcolwd,textwidth=9\turingcolwd}
+  \raggedright\setlength{\parindent}{0pt}%
+  \vspace*{5\turingcolht}
+  %%
+  \fontsize{8}{9.2}\selectfont\raggedright%
+  \fontsize{8}{11}\selectfont
+  {\offinterlineskip\rule{9\turingcolwd}{0.15ex}\\[0.5ex]
+  \copyright\ The Alan Turing Institute \reportCopyrightDate\par}
+  \medskip
+  %%
+  \reportAcknowledgment\relax%
+  %%
+  This work is licensed under Creative Commons licence CC~BY-SA~4.0. To
+  view a copy of this licence, visit
+  http://creativecommons.org/licenses/by-sa/4.0/ \medskip
+
+  The Alan Turing Institute is a charity incorporated and registered in
+  England and Wales with company number 09512457 and charity number
+  1162533 whose registered office is at British Library, 96 Euston Road,
+  London, England, NW1~2DB, United Kingdom.
+  \medskip
+
+  https://doi.org/\reportDOI
+  \end{titlepage}
+\endgroup
+\restoregeometry
+%%
+%% --- Main report body ---
 % \maketitle
 
 % \setcounter{tocdepth}{1}
